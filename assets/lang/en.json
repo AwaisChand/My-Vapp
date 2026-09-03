@@ -1,0 +1,52 @@
+{
+
+  "home": "Home",
+  "greeting": "Hi, {name}",
+  "loyaltyPts": "Loyalty Points",
+  "redeem": "Redeem Now",
+  "promotion": "Promotion",
+  "offers": "Offers",
+  "newsLetter": "Newsletter",
+  "noNewsLetter":"You have no Newsletters",
+  "login": "Login",
+
+
+
+  "noOffers": "You have no offers",
+  "birthdaysRemaining": "",
+  "coupons":"Coupons ",
+  "noCoupons": "You have no Coupons",
+  "birthday": "Birthday",
+  "tellBirthday":"Birthday Offers will appear on your birthday!",
+  "exclusiveOffers": "Exclusive Offers, ",
+  "forYou": "Just for\nYou.",
+  "thatCount":"That Count",
+  "hub": "Your Hub for Coupons,",
+  "savings": "Offers\n& Birthday Savings.",
+  "yBirthday": "Your Birthday,",
+  "specialDeal": "Your Special\nDeal.",
+
+  "history": "History",
+  "purchaseHistory": "Purchase History",
+  "all": "All",
+  "last7Days": "Last 7 Days",
+  "last30Days": "Last 30 Days",
+  "noOrder": "No Order Found",
+  "detail": "Order Detail",
+  "product": "Product Name:",
+  "quantity": "Quantity",
+  "unitPrice": "Unit Price",
+  "totalPrice":"Total Price",
+
+
+  "points": "Points",
+  "RedeemPts": "Redeem Points",
+  "tPoints": "Total Points",
+
+  "profile": "Profile",
+  "settings": "Settings",
+  "helpCenter": "Help Center",
+  "aiChat": "Ai Chat",
+  "changeLang": "Change to French",
+  "logout": "Logout"
+}
