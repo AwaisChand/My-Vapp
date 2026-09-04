@@ -25,14 +25,17 @@ class _LanguageScreenState extends State<LanguageScreen> {
   }
 
   Future<void> _apply() async {
-    MyApp.setLocale(context, Locale(_selected ?? 'en'));
-    await context.read<HomeViewModel>().syncLanguage(_selected ?? 'en');
-    if (context.mounted) {
-      await context.read<HomeViewModel>().loadHomeData(context);
-      Utils.toastMessage(
-        AppLocalizations.of(context)!.translate('languageUpdated') ?? 'Language updated',
-      );
-    }
+    final locale = _selected ?? 'en';
+    final home = context.read<HomeViewModel>();
+    MyApp.setLocale(context, Locale(locale));
+    await home.syncLanguage(locale);
+    if (!mounted) return;
+    await home.loadHomeData(context);
+    if (!mounted) return;
+    Utils.toastMessage(
+      AppLocalizations.of(context)!.translate('languageUpdated') ??
+          'Language updated',
+    );
   }
 
   @override
@@ -63,32 +66,56 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.translate('languageAndRegion') ?? 'Language & Region',
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 16),
+                          l10n.translate('languageAndRegion') ??
+                              'Language & Region',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
                         ),
                         const SizedBox(height: 12),
-                        RadioListTile<String>(
-                          value: 'en',
+                        RadioGroup<String>(
                           groupValue: _selected,
-                          onChanged: (v) => setState(() => _selected = v ?? 'en'),
-                          title: Text(l10n.translate('englishUS') ?? 'English (US)'),
-                          subtitle: Text(l10n.translate('unitedStates') ?? 'United States'),
-                          secondary: const Text('🇺🇸', style: TextStyle(fontSize: 22)),
-                        ),
-                        RadioListTile<String>(
-                          value: 'fr',
-                          groupValue: _selected,
-                          onChanged: (v) => setState(() => _selected = v ?? 'fr'),
-                          title: const Text('Français'),
-                          subtitle: const Text('France'),
-                          secondary: const Text('🇫🇷', style: TextStyle(fontSize: 22)),
+                          onChanged: (v) =>
+                              setState(() => _selected = v ?? 'en'),
+                          child: Column(
+                            children: [
+                              RadioListTile<String>(
+                                value: 'en',
+                                title: Text(
+                                  l10n.translate('englishUS') ??
+                                      'English (US)',
+                                ),
+                                subtitle: Text(
+                                  l10n.translate('unitedStates') ??
+                                      'United States',
+                                ),
+                                secondary: const Text(
+                                  '🇺🇸',
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                              ),
+                              RadioListTile<String>(
+                                value: 'fr',
+                                title: const Text('Français'),
+                                subtitle: const Text('France'),
+                                secondary: const Text(
+                                  '🇫🇷',
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
                             onPressed: _apply,
-                            child: Text(l10n.translate('applyChanges') ?? 'Apply Changes'),
+                            child: Text(
+                              l10n.translate('applyChanges') ??
+                                  'Apply Changes',
+                            ),
                           ),
                         ),
                       ],

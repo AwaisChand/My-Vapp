@@ -75,12 +75,13 @@ class HomeViewModel extends ChangeNotifier {
     );
   }
 
-  List<int> get orderYears =>
-      DashboardChartUtils.yearsWithFallback(_dashboard?.availableOrderYears ?? []);
+  List<int> get orderYears => DashboardChartUtils.yearsWithFallback(
+    _dashboard?.availableOrderYears ?? [],
+  );
 
   List<int> get passportYears => DashboardChartUtils.yearsWithFallback(
-        _dashboard?.availablePassportYears ?? [],
-      );
+    _dashboard?.availablePassportYears ?? [],
+  );
 
   set redeemPointsLoading(bool setLoading) {
     _redeemLoading = setLoading;
@@ -188,17 +189,23 @@ class HomeViewModel extends ChangeNotifier {
         notifyListeners();
       } else {
         _historyLoadFailed = true;
+        if (!context.mounted) return;
         Utils.toastMessage(
           response.message ??
-              (AppLocalizations.of(context)?.translate('unableToLoadTransactionHistory') ??
+              (AppLocalizations.of(
+                    context,
+                  )?.translate('unableToLoadTransactionHistory') ??
                   'Unable to load transaction history.'),
         );
       }
     } catch (e) {
       debugPrint('Cashback history error: $e');
       _historyLoadFailed = true;
+      if (!context.mounted) return;
       Utils.toastMessage(
-        AppLocalizations.of(context)?.translate('unableToLoadTransactionHistory') ??
+        AppLocalizations.of(
+              context,
+            )?.translate('unableToLoadTransactionHistory') ??
             'Unable to load transaction history.',
       );
     } finally {
@@ -229,6 +236,7 @@ class HomeViewModel extends ChangeNotifier {
       final response = await homeRepository.redeemNow(data);
       Utils.toastMessage(response['message'] ?? '');
       if (response['status'].toString() == '1') {
+        if (!context.mounted) return;
         await getRedeemPointsHistoryHome(context);
         await loadDashboard(silent: true);
         if (context.mounted) Navigator.of(context).pop();
@@ -243,7 +251,10 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> getNewsLetterApi(BuildContext context, {bool silent = false}) async {
+  Future<void> getNewsLetterApi(
+    BuildContext context, {
+    bool silent = false,
+  }) async {
     if (!silent) redeemPointsLoading = true;
     try {
       final response = await homeRepository.getNewsLetterRepo();

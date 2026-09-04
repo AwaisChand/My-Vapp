@@ -54,7 +54,7 @@ class PromotionsViewModel extends ChangeNotifier {
       await _fetchCoupons();
     } catch (e) {
       debugPrint('Get Coupons data error: $e');
-      _showError(context, e);
+      if (context.mounted) _showError(context, e);
     } finally {
       promotions = false;
     }
@@ -66,7 +66,7 @@ class PromotionsViewModel extends ChangeNotifier {
       await _fetchOffers();
     } catch (e) {
       debugPrint('Get Offers data error: $e');
-      _showError(context, e);
+      if (context.mounted) _showError(context, e);
     } finally {
       promotions = false;
     }
@@ -78,7 +78,7 @@ class PromotionsViewModel extends ChangeNotifier {
       await _fetchBirthday();
     } catch (e) {
       debugPrint('Get Birthday data error: $e');
-      _showError(context, e);
+      if (context.mounted) _showError(context, e);
     } finally {
       promotions = false;
     }
@@ -103,7 +103,8 @@ class PromotionsViewModel extends ChangeNotifier {
 
     try {
       final response = await authRepository.applyCouponRepo(couponCode);
-      final message = response.message ??
+      final message =
+          response.message ??
           (l10n?.translate('couponApplied') ?? 'Coupon applied successfully.');
 
       if (response.status == 1) {

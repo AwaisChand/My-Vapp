@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   // Customer dashboard brand palette (customer-portal-theme.css)
@@ -65,28 +64,28 @@ class AppColors {
   );
 
   static List<BoxShadow> get softShadow => [
-        BoxShadow(
-          color: const Color(0x0F000000).withValues(alpha: 0.06),
-          blurRadius: 24,
-          offset: const Offset(0, 8),
-        ),
-      ];
+    BoxShadow(
+      color: const Color(0x0F000000).withValues(alpha: 0.06),
+      blurRadius: 24,
+      offset: const Offset(0, 8),
+    ),
+  ];
 
   static List<BoxShadow> get brandShadow => [
-        BoxShadow(
-          color: primary.withValues(alpha: 0.32),
-          blurRadius: 20,
-          offset: const Offset(0, 8),
-        ),
-      ];
+    BoxShadow(
+      color: primary.withValues(alpha: 0.32),
+      blurRadius: 20,
+      offset: const Offset(0, 8),
+    ),
+  ];
 
   static List<BoxShadow> get navActiveShadow => [
-        BoxShadow(
-          color: primary.withValues(alpha: 0.32),
-          blurRadius: 22,
-          offset: const Offset(0, 8),
-        ),
-      ];
+    BoxShadow(
+      color: primary.withValues(alpha: 0.32),
+      blurRadius: 22,
+      offset: const Offset(0, 8),
+    ),
+  ];
 
   // Legacy aliases
   static Color darkGrayColor = textMuted;

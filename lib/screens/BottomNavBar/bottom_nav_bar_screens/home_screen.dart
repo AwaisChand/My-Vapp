@@ -37,9 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final home = context.read<HomeViewModel>();
       final promo = context.read<PromotionsViewModel>();
+      if (!mounted) return;
       await home.loadHomeData(context);
+      if (!mounted) return;
       await promo.checkBirthday(context);
-      if (mounted && promo.checkBirthdayModel?.daysRemaining == 0) {
+      if (!mounted) return;
+      if (promo.checkBirthdayModel?.daysRemaining == 0) {
         await BirthdayCouponPopup.show(context);
       }
     });

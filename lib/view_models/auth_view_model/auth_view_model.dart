@@ -141,11 +141,13 @@ class AuthViewModel extends ChangeNotifier {
           await refreshProfile(silent: true);
         }
 
+        if (!context.mounted) return;
         final promoProvider = Provider.of<PromotionsViewModel>(
           context,
           listen: false,
         );
         await promoProvider.checkBirthday(context);
+        if (!context.mounted) return;
         if (promoProvider.checkBirthdayModel?.daysRemaining == 0) {
           await promoProvider.getBirthday(context);
         }
@@ -180,7 +182,7 @@ class AuthViewModel extends ChangeNotifier {
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
         final String email = data['email'];
-        // Navigator.pushNamed(context, RoutesName.login);
+        if (!context.mounted) return;
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => VerifyOtpScreen(email: email)),
@@ -213,7 +215,7 @@ class AuthViewModel extends ChangeNotifier {
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
         final String email = data['email'];
-        // Navigator.pushNamed(context, RoutesName.login);
+        if (!context.mounted) return;
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -276,7 +278,7 @@ class AuthViewModel extends ChangeNotifier {
       // Check API-level status (e.g., "status": "1" or "0")
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
-        // Navigator.pushNamed(context, RoutesName.login);
+        if (!context.mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -309,6 +311,7 @@ class AuthViewModel extends ChangeNotifier {
       // Check API-level status (e.g., "status": "1" or "0")
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
+        if (!context.mounted) return;
         context.read<BottomNavViewModel>().goHome();
         Navigator.push(
           context,
@@ -363,11 +366,11 @@ class AuthViewModel extends ChangeNotifier {
           await saveUserData(User.fromJson(updated));
         }
 
-        if (context.mounted) {
-          await context.read<HomeViewModel>().loadHomeData(context);
-          if (popOnSuccess) {
-            Navigator.of(context).pop();
-          }
+        if (!context.mounted) return false;
+        await context.read<HomeViewModel>().loadHomeData(context);
+        if (!context.mounted) return false;
+        if (popOnSuccess) {
+          Navigator.of(context).pop();
         }
         return true;
       } else {
@@ -396,6 +399,7 @@ class AuthViewModel extends ChangeNotifier {
         'new_password': newPassword,
         'new_password_confirmation': confirmPassword,
       });
+      if (!context.mounted) return false;
       final l10n = AppLocalizations.of(context);
       if (response['status'].toString() == '1') {
         Utils.toastMessage(
@@ -414,6 +418,7 @@ class AuthViewModel extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Password update error: $e');
+      if (!context.mounted) return false;
       Utils.toastMessage(
         AppLocalizations.of(context)?.translate('passwordUpdateFailedRetry') ??
             'Password update failed. Please try again.',
@@ -430,8 +435,11 @@ class AuthViewModel extends ChangeNotifier {
     await loadUserData();
     final token = await NetworkApiService().getToken();
 
+    if (!context.mounted) return;
+
     if (token != null && token.isNotEmpty) {
       await refreshProfile(silent: true);
+      if (!context.mounted) return;
       final promoProvider = Provider.of<PromotionsViewModel>(
         context,
         listen: false,
@@ -439,10 +447,12 @@ class AuthViewModel extends ChangeNotifier {
 
       try {
         await promoProvider.checkBirthday(context);
+        if (!context.mounted) return;
         if (promoProvider.checkBirthdayModel?.daysRemaining == 0) {
           await promoProvider.getBirthday(context);
         }
 
+        if (!context.mounted) return;
         context.read<BottomNavViewModel>().goHome();
         Navigator.pushReplacement(
           context,
@@ -451,7 +461,7 @@ class AuthViewModel extends ChangeNotifier {
       } catch (e) {
         debugPrint("Error checking birthday: $e");
 
-        // Fall back to BottomNavBar if something fails
+        if (!context.mounted) return;
         context.read<BottomNavViewModel>().goHome();
         Navigator.pushReplacement(
           context,
@@ -480,6 +490,7 @@ class AuthViewModel extends ChangeNotifier {
         await NetworkApiService().clearToken();
         await clearUserData();
 
+        if (!context.mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),

@@ -327,7 +327,8 @@ class _UserScreenState extends State<UserScreen> {
       avatarFile: _selectedAvatar,
       popOnSuccess: !wantsPassword,
     );
-    if (!ok || !mounted) return;
+    if (!ok) return;
+    if (!context.mounted) return;
 
     if (wantsPassword) {
       final pwdOk = await auth.updatePassword(
@@ -336,12 +337,12 @@ class _UserScreenState extends State<UserScreen> {
         newPassword: newPwd,
         confirmPassword: confirmPwd,
       );
-      if (pwdOk && mounted) {
-        currentPasswordController.clear();
-        newPasswordController.clear();
-        confirmPasswordController.clear();
-        Navigator.of(context).pop();
-      }
+      if (!pwdOk) return;
+      if (!context.mounted) return;
+      currentPasswordController.clear();
+      newPasswordController.clear();
+      confirmPasswordController.clear();
+      Navigator.of(context).pop();
     }
   }
 
