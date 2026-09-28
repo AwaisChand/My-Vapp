@@ -66,7 +66,10 @@ class _MyAppState extends State<MyApp> {
         title: 'MY Vapp',
         theme: AppTheme.lightTheme,
         locale: _locale,
-        supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('fr', 'FR'),
+        ],
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

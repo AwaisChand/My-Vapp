@@ -4,11 +4,14 @@ import 'package:lim_crm/res/app_localization.dart';
 import 'package:lim_crm/res/components/user_avatar.dart';
 import 'package:lim_crm/res/portal_ui.dart';
 import 'package:lim_crm/screens/account/language_screen.dart';
+import 'package:lim_crm/screens/account/delete_account_screen.dart';
 import 'package:lim_crm/screens/auth_screens/settings_screen/settings_screen.dart';
 import 'package:lim_crm/screens/auth_screens/user_screen/user_screen.dart';
 import 'package:lim_crm/utils/app_colors.dart';
 import 'package:lim_crm/view_models/auth_view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:lim_crm/res/app_url.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -128,6 +131,29 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => const LanguageScreen()),
+                      ),
+                    ),
+                    _menuTile(
+                      context,
+                      icon: Icons.support_agent_rounded,
+                      color: AppColors.info,
+                      title: l10n.translate('support') ?? 'Support',
+                      onTap: () async {
+                        final uri = Uri.parse(AppUrl.supportPageUrl);
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    _menuTile(
+                      context,
+                      icon: Icons.delete_forever_rounded,
+                      color: AppColors.danger,
+                      title: l10n.translate('deleteAccount') ?? 'Delete Account',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const DeleteAccountScreen()),
                       ),
                     ),
                     const SizedBox(height: 8),

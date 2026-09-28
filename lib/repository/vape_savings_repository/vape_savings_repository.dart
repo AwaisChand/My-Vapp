@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:lim_crm/models/vape_saving_model/vape_saving_model.dart';
 
 import '../../data/network/base_api_service.dart';
@@ -8,9 +9,7 @@ class VapeSavingsRepository {
   BaseApiServices baseApiServices = NetworkApiService();
 
   Future<VapeSavingListModel> historyRepo() async {
-    final response = await baseApiServices.getRequest(
-      AppUrl.vapeSavingsEndPoint,
-    );
+    final response = await baseApiServices.getRequest(AppUrl.vapeSavingsEndPoint);
     return VapeSavingListModel.fromJson(response);
   }
 
@@ -23,9 +22,8 @@ class VapeSavingsRepository {
   }
 
   Future<SlipHistoryModel> slipHistoryRepo() async {
-    final response = await baseApiServices.getRequest(
-      AppUrl.vapeSlipsHistoryEndPoint,
-    );
+    final response =
+        await baseApiServices.getRequest(AppUrl.vapeSlipsHistoryEndPoint);
     return SlipHistoryModel.fromJson(response);
   }
 

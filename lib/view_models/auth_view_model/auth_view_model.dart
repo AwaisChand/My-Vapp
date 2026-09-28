@@ -141,13 +141,11 @@ class AuthViewModel extends ChangeNotifier {
           await refreshProfile(silent: true);
         }
 
-        if (!context.mounted) return;
         final promoProvider = Provider.of<PromotionsViewModel>(
           context,
           listen: false,
         );
         await promoProvider.checkBirthday(context);
-        if (!context.mounted) return;
         if (promoProvider.checkBirthdayModel?.daysRemaining == 0) {
           await promoProvider.getBirthday(context);
         }
@@ -182,7 +180,7 @@ class AuthViewModel extends ChangeNotifier {
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
         final String email = data['email'];
-        if (!context.mounted) return;
+        // Navigator.pushNamed(context, RoutesName.login);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => VerifyOtpScreen(email: email)),
@@ -215,7 +213,7 @@ class AuthViewModel extends ChangeNotifier {
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
         final String email = data['email'];
-        if (!context.mounted) return;
+        // Navigator.pushNamed(context, RoutesName.login);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -278,7 +276,7 @@ class AuthViewModel extends ChangeNotifier {
       // Check API-level status (e.g., "status": "1" or "0")
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
-        if (!context.mounted) return;
+        // Navigator.pushNamed(context, RoutesName.login);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -311,7 +309,6 @@ class AuthViewModel extends ChangeNotifier {
       // Check API-level status (e.g., "status": "1" or "0")
       if (response["status"].toString() == "1") {
         Utils.toastMessage(response["message"]);
-        if (!context.mounted) return;
         context.read<BottomNavViewModel>().goHome();
         Navigator.push(
           context,
@@ -366,11 +363,11 @@ class AuthViewModel extends ChangeNotifier {
           await saveUserData(User.fromJson(updated));
         }
 
-        if (!context.mounted) return false;
-        await context.read<HomeViewModel>().loadHomeData(context);
-        if (!context.mounted) return false;
-        if (popOnSuccess) {
-          Navigator.of(context).pop();
+        if (context.mounted) {
+          await context.read<HomeViewModel>().loadHomeData(context);
+          if (popOnSuccess) {
+            Navigator.of(context).pop();
+          }
         }
         return true;
       } else {
@@ -399,7 +396,6 @@ class AuthViewModel extends ChangeNotifier {
         'new_password': newPassword,
         'new_password_confirmation': confirmPassword,
       });
-      if (!context.mounted) return false;
       final l10n = AppLocalizations.of(context);
       if (response['status'].toString() == '1') {
         Utils.toastMessage(
@@ -418,7 +414,6 @@ class AuthViewModel extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Password update error: $e');
-      if (!context.mounted) return false;
       Utils.toastMessage(
         AppLocalizations.of(context)?.translate('passwordUpdateFailedRetry') ??
             'Password update failed. Please try again.',
@@ -435,11 +430,8 @@ class AuthViewModel extends ChangeNotifier {
     await loadUserData();
     final token = await NetworkApiService().getToken();
 
-    if (!context.mounted) return;
-
     if (token != null && token.isNotEmpty) {
       await refreshProfile(silent: true);
-      if (!context.mounted) return;
       final promoProvider = Provider.of<PromotionsViewModel>(
         context,
         listen: false,
@@ -447,12 +439,10 @@ class AuthViewModel extends ChangeNotifier {
 
       try {
         await promoProvider.checkBirthday(context);
-        if (!context.mounted) return;
         if (promoProvider.checkBirthdayModel?.daysRemaining == 0) {
           await promoProvider.getBirthday(context);
         }
 
-        if (!context.mounted) return;
         context.read<BottomNavViewModel>().goHome();
         Navigator.pushReplacement(
           context,
@@ -461,7 +451,7 @@ class AuthViewModel extends ChangeNotifier {
       } catch (e) {
         debugPrint("Error checking birthday: $e");
 
-        if (!context.mounted) return;
+        // Fall back to BottomNavBar if something fails
         context.read<BottomNavViewModel>().goHome();
         Navigator.pushReplacement(
           context,
@@ -490,7 +480,6 @@ class AuthViewModel extends ChangeNotifier {
         await NetworkApiService().clearToken();
         await clearUserData();
 
-        if (!context.mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -506,6 +495,68 @@ class AuthViewModel extends ChangeNotifier {
     } catch (e) {
       debugPrint("Logout Api error: $e");
       Utils.toastMessage("Error: ${e.toString()}");
+    } finally {
+      loading = false;
+    }
+  }
+
+  Future<bool> requestAccountDeletion(String email) async {
+    loading = true;
+    try {
+      final response = await authRepository.requestAccountDeletion({'email': email});
+      Utils.toastMessage(response['message']?.toString() ?? '');
+      return response['status'].toString() == '1';
+    } catch (e) {
+      Utils.toastMessage('Error: ${e.toString()}');
+      return false;
+    } finally {
+      loading = false;
+    }
+  }
+
+  Future<bool> resendAccountDeletionOtp(String email) async {
+    resend = true;
+    try {
+      final response = await authRepository.resendAccountDeletionOtp({'email': email});
+      Utils.toastMessage(response['message']?.toString() ?? '');
+      return response['status'].toString() == '1';
+    } catch (e) {
+      Utils.toastMessage('Error: ${e.toString()}');
+      return false;
+    } finally {
+      resend = false;
+    }
+  }
+
+  Future<bool> verifyAndDeleteAccount(
+    BuildContext context, {
+    required String email,
+    required String otp,
+  }) async {
+    loading = true;
+    try {
+      final response = await authRepository.verifyAccountDeletion({
+        'email': email,
+        'otp': otp,
+      });
+      final message = response['message']?.toString() ?? '';
+      Utils.toastMessage(message);
+
+      if (response['status'].toString() == '1') {
+        await NetworkApiService().clearToken();
+        await clearUserData();
+        if (!context.mounted) return true;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => LoginScreen()),
+          (route) => false,
+        );
+        return true;
+      }
+      return false;
+    } catch (e) {
+      Utils.toastMessage('Error: ${e.toString()}');
+      return false;
     } finally {
       loading = false;
     }

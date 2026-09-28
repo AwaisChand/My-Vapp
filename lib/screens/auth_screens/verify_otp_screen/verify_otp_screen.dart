@@ -10,7 +10,7 @@ import '../../../utils/app_colors.dart';
 import '../../../view_models/auth_view_model/auth_view_model.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key, this.email});
+  VerifyOtpScreen({super.key, this.email});
 
   final String? email;
 

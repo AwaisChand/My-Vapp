@@ -22,7 +22,6 @@ class PromotionCard extends StatelessWidget {
     }
 
     if (item.isCoupon && item.hasCode) {
-      if (!context.mounted) return;
       await vm.applyCoupon(context, item.code!.trim());
       return;
     }

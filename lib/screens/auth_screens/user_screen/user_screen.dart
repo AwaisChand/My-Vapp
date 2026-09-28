@@ -13,6 +13,7 @@ import '../../../res/components/app_text_field.dart';
 import '../../../utils/utils.dart';
 import '../../../view_models/auth_view_model/auth_view_model.dart';
 import '../../../view_models/home_view_model/home_view_model.dart';
+import '../../account/delete_account_screen.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -232,6 +233,24 @@ class _UserScreenState extends State<UserScreen> {
                   isLoading: auth.isLoading,
                   onPressed: () => _save(context, auth, l10n),
                 ),
+                const SizedBox(height: 24),
+                OutlinedButton.icon(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const DeleteAccountScreen()),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.danger,
+                    side: BorderSide(color: AppColors.danger.withValues(alpha: 0.5)),
+                    minimumSize: const Size(double.infinity, 48),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                  icon: const Icon(Icons.delete_forever_rounded),
+                  label: Text(
+                    l10n.translate('deleteAccount') ?? 'Delete Account',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+                  ),
+                ),
               ],
             ),
           ),
@@ -327,8 +346,7 @@ class _UserScreenState extends State<UserScreen> {
       avatarFile: _selectedAvatar,
       popOnSuccess: !wantsPassword,
     );
-    if (!ok) return;
-    if (!context.mounted) return;
+    if (!ok || !mounted) return;
 
     if (wantsPassword) {
       final pwdOk = await auth.updatePassword(
@@ -337,12 +355,12 @@ class _UserScreenState extends State<UserScreen> {
         newPassword: newPwd,
         confirmPassword: confirmPwd,
       );
-      if (!pwdOk) return;
-      if (!context.mounted) return;
-      currentPasswordController.clear();
-      newPasswordController.clear();
-      confirmPasswordController.clear();
-      Navigator.of(context).pop();
+      if (pwdOk && mounted) {
+        currentPasswordController.clear();
+        newPasswordController.clear();
+        confirmPasswordController.clear();
+        Navigator.of(context).pop();
+      }
     }
   }
 

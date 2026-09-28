@@ -21,10 +21,19 @@ class AppUrl {
   static var userProfileEndPoint = '${baseUrl}api/password/profile';
   static var settingsEndPoint = '${baseUrl}api/password/settings';
 
+  // Account deletion
+  static var deleteAccountRequestEndPoint = '${baseUrl}api/account/delete-request';
+  static var deleteAccountResendOtpEndPoint = '${baseUrl}api/account/delete-resend-otp';
+  static var deleteAccountVerifyEndPoint = '${baseUrl}api/account/delete-verify';
+
   // Customer dashboard
   static var dashboardEndPoint = '${baseUrl}api/dashboard';
   static var profileEndPoint = '${baseUrl}api/profile';
   static var languageEndPoint = '${baseUrl}api/language';
+
+  static String get supportPageUrl => '${baseUrl}support';
+  static String get deleteAccountPageUrl => '${baseUrl}delete-account';
+  static String get privacyPolicyUrl => '${baseUrl}privacy-policy';
 
   // Cashback & loyalty
   static var redeemPointsHistoryEndPoint = '${baseUrl}api/redeemed-points';

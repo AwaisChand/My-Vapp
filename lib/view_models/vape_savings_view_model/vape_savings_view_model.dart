@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lim_crm/models/vape_saving_model/vape_saving_model.dart';
 
@@ -46,10 +47,7 @@ class VapeSavingsViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> saveCalculation(
-    BuildContext context,
-    Map<String, dynamic> data,
-  ) async {
+  Future<bool> saveCalculation(BuildContext context, Map<String, dynamic> data) async {
     _setLoading(true);
     try {
       final response = await _repository.saveCalculation(data);

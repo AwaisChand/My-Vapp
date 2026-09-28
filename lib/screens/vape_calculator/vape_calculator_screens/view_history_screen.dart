@@ -33,14 +33,10 @@ class _ViewHistoryScreenState extends State<ViewHistoryScreen> {
         title: Text(l10n.translate('vapeSavingsCalculationHistory') ?? 'Vape Savings Calculation History'),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const NewCalculationScreen()),
-          );
-          if (!context.mounted) return;
-          context.read<VapeSavingsViewModel>().loadHistory();
-        },
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const NewCalculationScreen()),
+        ).then((_) => context.read<VapeSavingsViewModel>().loadHistory()),
         label: Text(l10n.translate('newCalculation') ?? 'New'),
         icon: const Icon(Icons.add),
       ),
@@ -61,20 +57,11 @@ class _ViewHistoryScreenState extends State<ViewHistoryScreen> {
                       style: GoogleFonts.poppins(color: AppColors.textMuted),
                     ),
                     TextButton(
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const NewCalculationScreen(),
-                          ),
-                        );
-                        if (!context.mounted) return;
-                        context.read<VapeSavingsViewModel>().loadHistory();
-                      },
-                      child: Text(
-                        l10n.translate('createFirstCalculation') ??
-                            'Create your first calculation',
-                      ),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const NewCalculationScreen()),
+                      ).then((_) => context.read<VapeSavingsViewModel>().loadHistory()),
+                      child: Text(l10n.translate('createFirstCalculation') ?? 'Create your first calculation'),
                     ),
                   ],
                 ),
@@ -153,7 +140,6 @@ class _ViewHistoryScreenState extends State<ViewHistoryScreen> {
                               ),
                             );
                             if (confirm == true && item.id != null) {
-                              if (!context.mounted) return;
                               await vm.deleteCalculation(context, item.id!);
                             }
                           },

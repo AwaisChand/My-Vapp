@@ -3,10 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lim_crm/res/app_assets.dart';
 import 'package:lim_crm/res/app_localization.dart';
 import 'package:lim_crm/screens/account/language_screen.dart';
+import 'package:lim_crm/screens/account/delete_account_screen.dart';
 import 'package:lim_crm/screens/auth_screens/user_screen/user_screen.dart';
 import 'package:lim_crm/utils/app_colors.dart';
 import 'package:lim_crm/view_models/bottom_nav_view_model/bottom_nav_view_model.dart';
+import 'package:lim_crm/res/app_url.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomerSidebar extends StatelessWidget {
   const CustomerSidebar({super.key});
@@ -89,6 +92,26 @@ class CustomerSidebar extends StatelessWidget {
               iconColor: AppColors.info,
               label: l10n.translate('language') ?? 'Language',
               onTap: () => _push(context, const LanguageScreen()),
+            ),
+            _NavTile(
+              selected: false,
+              icon: Icons.support_agent_rounded,
+              iconColor: AppColors.info,
+              label: l10n.translate('support') ?? 'Support',
+              onTap: () async {
+                Navigator.of(context).pop();
+                final uri = Uri.parse(AppUrl.supportPageUrl);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                }
+              },
+            ),
+            _NavTile(
+              selected: false,
+              icon: Icons.delete_forever_rounded,
+              iconColor: AppColors.danger,
+              label: l10n.translate('deleteAccount') ?? 'Delete Account',
+              onTap: () => _push(context, const DeleteAccountScreen()),
             ),
           ],
         ),

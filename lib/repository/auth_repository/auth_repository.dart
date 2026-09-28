@@ -176,4 +176,39 @@ class AuthRepository{
     }
   }
 
+  Future<dynamic> requestAccountDeletion(dynamic data) async {
+    try {
+      return await baseApiServices.postRequest(
+        AppUrl.deleteAccountRequestEndPoint,
+        data,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<dynamic> resendAccountDeletionOtp(dynamic data) async {
+    try {
+      return await baseApiServices.postRequest(
+        AppUrl.deleteAccountResendOtpEndPoint,
+        data,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<dynamic> verifyAccountDeletion(dynamic data) async {
+    try {
+      return await baseApiServices.postRequest(
+        AppUrl.deleteAccountVerifyEndPoint,
+        data,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }
