@@ -30,7 +30,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
     if (context.mounted) {
       await context.read<HomeViewModel>().loadHomeData(context);
       Utils.toastMessage(
-        AppLocalizations.of(context)!.translate('languageUpdated') ?? 'Language updated',
+        AppLocalizations.of(context)!.translate('languageUpdated') ??
+            'Language updated',
       );
     }
   }
@@ -47,7 +48,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
             PortalUi.pageHeader(
               context: context,
               title: l10n.translate('language') ?? 'Language',
-              subtitle: l10n.translate('profileSubtitle') ??
+              subtitle:
+                  l10n.translate('profileSubtitle') ??
                   'Manage your account settings and preferences',
               icon: Icons.language,
               showBack: true,
@@ -63,32 +65,50 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.translate('languageAndRegion') ?? 'Language & Region',
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 16),
+                          l10n.translate('languageAndRegion') ??
+                              'Language & Region',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         RadioListTile<String>(
                           value: 'en',
                           groupValue: _selected,
-                          onChanged: (v) => setState(() => _selected = v ?? 'en'),
-                          title: Text(l10n.translate('englishUS') ?? 'English (US)'),
-                          subtitle: Text(l10n.translate('unitedStates') ?? 'United States'),
-                          secondary: const Text('🇺🇸', style: TextStyle(fontSize: 22)),
+                          onChanged:
+                              (v) => setState(() => _selected = v ?? 'en'),
+                          title: Text(
+                            l10n.translate('englishUS') ?? 'English (US)',
+                          ),
+                          subtitle: Text(
+                            l10n.translate('unitedStates') ?? 'United States',
+                          ),
+                          secondary: const Text(
+                            '🇺🇸',
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         RadioListTile<String>(
                           value: 'fr',
                           groupValue: _selected,
-                          onChanged: (v) => setState(() => _selected = v ?? 'fr'),
+                          onChanged:
+                              (v) => setState(() => _selected = v ?? 'fr'),
                           title: const Text('Français'),
                           subtitle: const Text('France'),
-                          secondary: const Text('🇫🇷', style: TextStyle(fontSize: 22)),
+                          secondary: const Text(
+                            '🇫🇷',
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
                             onPressed: _apply,
-                            child: Text(l10n.translate('applyChanges') ?? 'Apply Changes'),
+                            child: Text(
+                              l10n.translate('applyChanges') ?? 'Apply Changes',
+                            ),
                           ),
                         ),
                       ],

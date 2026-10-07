@@ -50,7 +50,8 @@ class _UserScreenState extends State<UserScreen> {
     final auth = Provider.of<AuthViewModel>(context, listen: false);
     final user = auth.user;
 
-    firstNameController.text = user?.firstName ?? _firstNameFromName(user?.name);
+    firstNameController.text =
+        user?.firstName ?? _firstNameFromName(user?.name);
     lastNameController.text = user?.lastName ?? _lastNameFromName(user?.name);
     emailController.text = user?.email ?? '';
     phoneController.text = user?.phone ?? '';
@@ -119,9 +120,7 @@ class _UserScreenState extends State<UserScreen> {
       builder: (context, auth, _) {
         return Scaffold(
           backgroundColor: AppColors.scaffoldBg,
-          appBar: AppBar(
-            title: Text(l10n.translate('profile') ?? 'Profile'),
-          ),
+          appBar: AppBar(title: Text(l10n.translate('profile') ?? 'Profile')),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -135,20 +134,27 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 profileAvatarHint(
                   context,
-                  l10n.translate('tapToChangePhoto') ?? 'Tap to change profile photo',
+                  l10n.translate('tapToChangePhoto') ??
+                      'Tap to change profile photo',
                 ),
                 const SizedBox(height: 24),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     l10n.translate('profileDetails') ?? 'Profile Details',
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 18),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.translate('customerRole') ?? 'customer',
-                  style: GoogleFonts.poppins(color: AppColors.textMuted, fontSize: 13),
+                  style: GoogleFonts.poppins(
+                    color: AppColors.textMuted,
+                    fontSize: 13,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 AppTextField(
@@ -204,12 +210,16 @@ class _UserScreenState extends State<UserScreen> {
                 const SizedBox(height: 24),
                 Text(
                   '${l10n.translate('changePassword') ?? 'Change Password'} (${l10n.translate('optional') ?? 'optional'})',
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 16),
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 AppTextField(
                   controller: currentPasswordController,
-                  hintText: l10n.translate('currentPassword') ?? 'Current Password',
+                  hintText:
+                      l10n.translate('currentPassword') ?? 'Current Password',
                   textInputType: TextInputType.visiblePassword,
                   isPassword: true,
                 ),
@@ -223,7 +233,9 @@ class _UserScreenState extends State<UserScreen> {
                 const SizedBox(height: 12),
                 AppTextField(
                   controller: confirmPasswordController,
-                  hintText: l10n.translate('confirmNewPassword') ?? 'Confirm New Password',
+                  hintText:
+                      l10n.translate('confirmNewPassword') ??
+                      'Confirm New Password',
                   textInputType: TextInputType.visiblePassword,
                   isPassword: true,
                 ),
@@ -235,15 +247,22 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 const SizedBox(height: 24),
                 OutlinedButton.icon(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const DeleteAccountScreen()),
-                  ),
+                  onPressed:
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const DeleteAccountScreen(),
+                        ),
+                      ),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.danger,
-                    side: BorderSide(color: AppColors.danger.withValues(alpha: 0.5)),
+                    side: BorderSide(
+                      color: AppColors.danger.withValues(alpha: 0.5),
+                    ),
                     minimumSize: const Size(double.infinity, 48),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                   ),
                   icon: const Icon(Icons.delete_forever_rounded),
                   label: Text(
@@ -291,7 +310,10 @@ class _UserScreenState extends State<UserScreen> {
             const SizedBox(height: 4),
             Text(
               '${l10n.translate('missingFields') ?? 'Missing fields'}: ${snapshot.missingProfileFields.join(', ')}',
-              style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textMuted),
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                color: AppColors.textMuted,
+              ),
             ),
           ],
         ],
@@ -299,32 +321,52 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  Future<void> _save(BuildContext context, AuthViewModel auth, AppLocalizations l10n) async {
-    if (firstNameController.text.trim().isEmpty || lastNameController.text.trim().isEmpty) {
-      Utils.toastMessage(l10n.translate('nameRequired') ?? 'First and last name are required');
+  Future<void> _save(
+    BuildContext context,
+    AuthViewModel auth,
+    AppLocalizations l10n,
+  ) async {
+    if (firstNameController.text.trim().isEmpty ||
+        lastNameController.text.trim().isEmpty) {
+      Utils.toastMessage(
+        l10n.translate('nameRequired') ?? 'First and last name are required',
+      );
       return;
     }
 
     final currentPwd = currentPasswordController.text.trim();
     final newPwd = newPasswordController.text.trim();
     final confirmPwd = confirmPasswordController.text.trim();
-    final wantsPassword = currentPwd.isNotEmpty || newPwd.isNotEmpty || confirmPwd.isNotEmpty;
+    final wantsPassword =
+        currentPwd.isNotEmpty || newPwd.isNotEmpty || confirmPwd.isNotEmpty;
 
     if (wantsPassword) {
       if (currentPwd.isEmpty) {
-        Utils.toastMessage(l10n.translate('pleaseEnterCurrentPassword') ?? 'Please enter your current password.');
+        Utils.toastMessage(
+          l10n.translate('pleaseEnterCurrentPassword') ??
+              'Please enter your current password.',
+        );
         return;
       }
       if (newPwd.isEmpty) {
-        Utils.toastMessage(l10n.translate('pleaseEnterNewPassword') ?? 'Please enter a new password.');
+        Utils.toastMessage(
+          l10n.translate('pleaseEnterNewPassword') ??
+              'Please enter a new password.',
+        );
         return;
       }
       if (newPwd.length < 8) {
-        Utils.toastMessage(l10n.translate('newPasswordMin8') ?? 'New password must be at least 8 characters.');
+        Utils.toastMessage(
+          l10n.translate('newPasswordMin8') ??
+              'New password must be at least 8 characters.',
+        );
         return;
       }
       if (newPwd != confirmPwd) {
-        Utils.toastMessage(l10n.translate('newPasswordMismatch') ?? 'New password and confirmation do not match.');
+        Utils.toastMessage(
+          l10n.translate('newPasswordMismatch') ??
+              'New password and confirmation do not match.',
+        );
         return;
       }
     }
@@ -387,7 +429,11 @@ class _UserScreenState extends State<UserScreen> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
+              const Icon(
+                Icons.cake_outlined,
+                color: AppColors.primary,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -395,12 +441,19 @@ class _UserScreenState extends State<UserScreen> {
                       ? _displayDob(_dob!)
                       : (l10n.translate('notSet') ?? 'Not set'),
                   style: GoogleFonts.poppins(
-                    color: _dob != null ? AppColors.textPrimary : AppColors.textMuted,
+                    color:
+                        _dob != null
+                            ? AppColors.textPrimary
+                            : AppColors.textMuted,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              Icon(Icons.lock_outline, color: AppColors.textMuted.withValues(alpha: 0.7), size: 18),
+              Icon(
+                Icons.lock_outline,
+                color: AppColors.textMuted.withValues(alpha: 0.7),
+                size: 18,
+              ),
             ],
           ),
         ),

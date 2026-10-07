@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lim_crm/res/components/app_button.dart';
 import 'package:lim_crm/utils/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
 
 import '../../../res/app_assets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../view_models/auth_view_model/auth_view_model.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  VerifyOtpScreen({super.key, this.email});
+  const VerifyOtpScreen({super.key, this.email});
 
   final String? email;
-
-
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
@@ -25,8 +23,6 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   final otpControllers = List.generate(4, (index) => TextEditingController());
 
-
-
   @override
   void initState() {
     super.initState();
@@ -34,6 +30,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       emailController.text = widget.email!;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthViewModel>(
@@ -84,10 +81,15 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                             const SizedBox(height: 8),
                             Container(
                               width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: AppColors.darkGrayColor),
+                                border: Border.all(
+                                  color: AppColors.darkGrayColor,
+                                ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
@@ -188,10 +190,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                               Map data = {
                                 'email': emailController.text.toString(),
                               };
-                              auth.resendOtpApi(
-                                context,
-                                data,
-                              );
+                              auth.resendOtpApi(context, data);
                             }
                           },
                           child:

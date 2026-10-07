@@ -4,7 +4,6 @@ import 'package:lim_crm/res/app_localization.dart';
 import 'package:lim_crm/res/components/promotion_card.dart';
 import 'package:lim_crm/utils/app_colors.dart';
 import 'package:lim_crm/utils/promotion_display.dart';
-import 'package:lim_crm/utils/utils.dart';
 import 'package:lim_crm/view_models/promotions_view_model/promotions_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +49,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
         if (vm.birthday.isEmpty) {
           return Center(
             child: Text(
-              l10n.translate('noPromotionsRightNow') ?? 'No birthday rewards available right now.',
+              l10n.translate('noPromotionsRightNow') ??
+                  'No birthday rewards available right now.',
               style: GoogleFonts.poppins(color: AppColors.textMuted),
             ),
           );
@@ -59,7 +59,9 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
           itemCount: vm.birthday.length,
           itemBuilder: (context, index) {
-            return PromotionCard(item: PromotionItem.fromBirthday(vm.birthday[index]));
+            return PromotionCard(
+              item: PromotionItem.fromBirthday(vm.birthday[index]),
+            );
           },
         );
       },

@@ -15,8 +15,8 @@ import '../../data/network/network_api_service.dart';
 import '../../repository/auth_repository/auth_repository.dart';
 import '../../res/app_localization.dart';
 import '../../utils/utils.dart';
-import '../home_view_model/home_view_model.dart';
 import '../bottom_nav_view_model/bottom_nav_view_model.dart';
+import '../home_view_model/home_view_model.dart';
 import '../promotions_view_model/promotions_view_model.dart';
 
 class AuthViewModel extends ChangeNotifier {
@@ -47,10 +47,7 @@ class AuthViewModel extends ChangeNotifier {
 
   Future<void> saveUserData(User user) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(
-      'user',
-      jsonEncode(user.toJson()),
-    );
+    prefs.setString('user', jsonEncode(user.toJson()));
     _user = user;
     notifyListeners();
   }
@@ -64,7 +61,8 @@ class AuthViewModel extends ChangeNotifier {
         updated.addAll(Map<String, dynamic>.from(response['user']));
         if ((updated['name'] ?? '').toString().trim().isEmpty) {
           updated['name'] =
-              '${updated['first_name'] ?? ''} ${updated['last_name'] ?? ''}'.trim();
+              '${updated['first_name'] ?? ''} ${updated['last_name'] ?? ''}'
+                  .trim();
         }
         await saveUserData(User.fromJson(updated));
       }
@@ -133,7 +131,10 @@ class AuthViewModel extends ChangeNotifier {
 
       if (status == "1") {
         Utils.toastMessage(message);
-        await _persistRememberedEmail(data['email']?.toString() ?? '', rememberMe);
+        await _persistRememberedEmail(
+          data['email']?.toString() ?? '',
+          rememberMe,
+        );
 
         _user = LoginModel.fromJson(response).user;
         if (_user != null) {
@@ -183,7 +184,9 @@ class AuthViewModel extends ChangeNotifier {
         // Navigator.pushNamed(context, RoutesName.login);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => VerifyOtpScreen(email: email)),
+          MaterialPageRoute(
+            builder: (context) => VerifyOtpScreen(email: email),
+          ),
         );
       } else {
         Utils.toastMessage(response["message"]);
@@ -280,9 +283,8 @@ class AuthViewModel extends ChangeNotifier {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
-              (route) => false,
+          (route) => false,
         );
-
       } else {
         Utils.toastMessage(response["message"]);
       }
@@ -328,7 +330,6 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-
   ///User Profile
   Future<bool> updateProfile(
     BuildContext context,
@@ -353,7 +354,8 @@ class AuthViewModel extends ChangeNotifier {
           final updated = Map<String, dynamic>.from(current?.toJson() ?? {});
           updated.addAll(Map<String, dynamic>.from(response['user']));
           updated['name'] =
-              '${updated['first_name'] ?? ''} ${updated['last_name'] ?? ''}'.trim();
+              '${updated['first_name'] ?? ''} ${updated['last_name'] ?? ''}'
+                  .trim();
           if (response['user']['avatar_url'] != null) {
             updated['avatar_url'] = response['user']['avatar_url'];
           }
@@ -503,7 +505,9 @@ class AuthViewModel extends ChangeNotifier {
   Future<bool> requestAccountDeletion(String email) async {
     loading = true;
     try {
-      final response = await authRepository.requestAccountDeletion({'email': email});
+      final response = await authRepository.requestAccountDeletion({
+        'email': email,
+      });
       Utils.toastMessage(response['message']?.toString() ?? '');
       return response['status'].toString() == '1';
     } catch (e) {
@@ -517,7 +521,9 @@ class AuthViewModel extends ChangeNotifier {
   Future<bool> resendAccountDeletionOtp(String email) async {
     resend = true;
     try {
-      final response = await authRepository.resendAccountDeletionOtp({'email': email});
+      final response = await authRepository.resendAccountDeletionOtp({
+        'email': email,
+      });
       Utils.toastMessage(response['message']?.toString() ?? '');
       return response['status'].toString() == '1';
     } catch (e) {
