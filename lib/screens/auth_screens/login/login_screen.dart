@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 6),
                           Text(
                             l10n.translate('trustedByThousands') ??
-                                'Trusted by thousands of vape customers',
+                                'Trusted by thousands of Personal customers',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                               color: AppColors.textMuted,

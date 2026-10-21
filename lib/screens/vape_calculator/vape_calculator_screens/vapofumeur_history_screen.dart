@@ -50,7 +50,7 @@ class _VapofumeurHistoryScreenState extends State<VapofumeurHistoryScreen> {
       appBar: widget.embedded
           ? null
           : AppBar(
-              title: Text(l10n.translate('vapofumeur') ?? 'Vapofumeur'),
+              title: Text(l10n.translate('vapofumeur') ?? 'Personalfumeur'),
             ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openRecordScreen,
@@ -68,10 +68,10 @@ class _VapofumeurHistoryScreenState extends State<VapofumeurHistoryScreen> {
             if (widget.embedded)
               PortalUi.pageHeader(
                 context: context,
-                title: l10n.translate('vapofumeurHistoryTitle') ?? 'Vapofumeur — History',
+                title: l10n.translate('vapofumeurHistoryTitle') ?? 'Personalfumeur — History',
                 subtitle: l10n.translate('vapofumeurHistorySubtitle') ??
                     'Your saved slips appear below. Use the table to search and sort.',
-                icon: Icons.smoking_rooms_rounded,
+                icon: Icons.favorite_rounded,
               ),
             Expanded(
               child: Consumer<VapeSavingsViewModel>(
@@ -101,7 +101,7 @@ class _VapofumeurHistoryScreenState extends State<VapofumeurHistoryScreen> {
                       children: [
                         if (!widget.embedded) ...[
                           Text(
-                            l10n.translate('vapofumeurHistoryTitle') ?? 'Vapofumeur — History',
+                            l10n.translate('vapofumeurHistoryTitle') ?? 'Personalfumeur — History',
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 20),
                           ),
                           const SizedBox(height: 6),
@@ -249,7 +249,7 @@ class _VapofumeurHistoryScreenState extends State<VapofumeurHistoryScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${l10n.translate('numberOfCigarettes') ?? 'Number of cigarettes'}: ${slip.cigarettesCount ?? 0}',
+                  '${l10n.translate('numberOfCigarettes') ?? 'Quantity'}: ${slip.cigarettesCount ?? 0}',
                   style: GoogleFonts.poppins(fontSize: 13),
                 ),
                 Text(

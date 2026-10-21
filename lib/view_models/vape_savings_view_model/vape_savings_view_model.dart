@@ -10,6 +10,9 @@ class VapeSavingsViewModel extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
 
+  bool _saving = false;
+  bool get saving => _saving;
+
   List<VapeSavingModel> _history = [];
   List<VapeSavingModel> get history => _history;
 
@@ -94,7 +97,8 @@ class VapeSavingsViewModel extends ChangeNotifier {
   }
 
   Future<bool> saveSlip(BuildContext context, Map<String, dynamic> data) async {
-    _setLoading(true);
+    _saving = true;
+    notifyListeners();
     try {
       final response = await _repository.saveSlip(data);
       Utils.toastMessage(response['message'] ?? '');
@@ -107,7 +111,8 @@ class VapeSavingsViewModel extends ChangeNotifier {
       Utils.toastMessage('Error: $e');
       return false;
     } finally {
-      _setLoading(false);
+      _saving = false;
+      notifyListeners();
     }
   }
 }

@@ -19,7 +19,7 @@ class VapeCalculationDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        title: Text(l10n.translate('vapeSavingsCalculationDetails') ?? 'Vape Savings Calculation Details'),
+        title: Text(l10n.translate('vapeSavingsCalculationDetails') ?? 'Personal Savings Calculation Details'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -53,15 +53,15 @@ class VapeCalculationDetailScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _section(l10n.translate('smokeInputs') ?? 'SMOKE Inputs', [
-            _row(l10n.translate('startDateSmoke') ?? 'Start date smoke', saving.firstDate ?? '—'),
+          _section(l10n.translate('smokeInputs') ?? 'Previous inputs', [
+            _row(l10n.translate('startDateSmoke') ?? 'Start date', saving.firstDate ?? '—'),
             _row(l10n.translate('todayDate') ?? 'Today date', saving.todayDate ?? '—'),
-            _row(l10n.translate('priceForCigarettesBox') ?? 'Price for a cigarettes box', '${saving.packPrice ?? '0.00'} €'),
-            _row(l10n.translate('numberOfCigarsPerBox') ?? 'Number of cigars per box', '${saving.cigsPerPack ?? 0}'),
-            _row(l10n.translate('numberOfCigarsSmokedADay') ?? 'Number of cigars smoked a day', '${saving.cigsPerDay ?? 0}'),
+            _row(l10n.translate('priceForCigarettesBox') ?? 'Pack price', '${saving.packPrice ?? '0.00'} €'),
+            _row(l10n.translate('numberOfCigarsPerBox') ?? 'Units per pack', '${saving.cigsPerPack ?? 0}'),
+            _row(l10n.translate('numberOfCigarsSmokedADay') ?? 'Units per day', '${saving.cigsPerDay ?? 0}'),
           ]),
-          _section(l10n.translate('vapeInputs') ?? 'VAPE Inputs', [
-            _row(l10n.translate('priceForVapeBottle') ?? 'Price for a vape bottle', '${saving.vapeUnitPrice ?? '0.00'} €'),
+          _section(l10n.translate('vapeInputs') ?? 'Personal Inputs', [
+            _row(l10n.translate('priceForVapeBottle') ?? 'Price for a Personal bottle', '${saving.vapeUnitPrice ?? '0.00'} €'),
             _row(l10n.translate('howManyBottleSoFar') ?? 'How many bottle so far', '${saving.bottlesCount ?? 0}'),
             _row(l10n.translate('freeBottle') ?? 'Free bottle', '${saving.freeBottles ?? 0}'),
             _row(
@@ -72,16 +72,16 @@ class VapeCalculationDetailScreen extends StatelessWidget {
           ]),
           _section(l10n.translate('results') ?? 'Results', [
             _row(l10n.translate('totalDays') ?? 'Total Days', '${saving.totalDays ?? 0}'),
-            _row(l10n.translate('cigaretteUnitPrice') ?? 'Cigarette Unit Price', '${saving.cigUnitPrice ?? '0.00'} €'),
-            _row(l10n.translate('totalCigaretteCost') ?? 'Total Cigarette Cost', '${saving.totalCigCost ?? '0.00'} €'),
-            _row(l10n.translate('vapeCostBeforeFidelity') ?? 'Vape Cost Before Fidelity', '${saving.vapeCostBeforeFidelity ?? '0.00'} €'),
+            _row(l10n.translate('cigaretteUnitPrice') ?? 'Unit Price', '${saving.cigUnitPrice ?? '0.00'} €'),
+            _row(l10n.translate('totalCigaretteCost') ?? 'Total previous cost', '${saving.totalCigCost ?? '0.00'} €'),
+            _row(l10n.translate('vapeCostBeforeFidelity') ?? 'Personal Cost Before Fidelity', '${saving.vapeCostBeforeFidelity ?? '0.00'} €'),
             _row(l10n.translate('fidelityDiscountValue') ?? 'Fidelity Discount Value', '${saving.fidelityDiscountValue ?? '0.00'} €'),
-            _row(l10n.translate('totalVapeCostAfterFidelity') ?? 'Total Vape Cost After Fidelity', '${saving.totalVapeCostAfterFidelity ?? '0.00'} €'),
+            _row(l10n.translate('totalVapeCostAfterFidelity') ?? 'Total Personal Cost After Fidelity', '${saving.totalVapeCostAfterFidelity ?? '0.00'} €'),
             _row(l10n.translate('freeBottleValueResult') ?? 'Free Bottle Value', '${saving.freeBottleValue ?? '0.00'} €'),
-            _row(l10n.translate('effectiveTotalVapeValue') ?? 'Effective Total Vape Value (Including Free)', '${saving.effectiveTotalVapeValueIncludingFree ?? '0.00'} €'),
+            _row(l10n.translate('effectiveTotalVapeValue') ?? 'Effective Total Personal Value (Including Free)', '${saving.effectiveTotalVapeValueIncludingFree ?? '0.00'} €'),
             _row(l10n.translate('finalEffectiveUnitPrice') ?? 'Final Effective Unit Price', '${saving.finalEffectiveUnitPrice ?? '0.00'} €'),
-            _row(l10n.translate('eurosSavedVsCigarettes') ?? 'Euros Saved vs Cigarettes', '${saving.eurosSavedVsCig ?? '0.00'} €'),
-            _row(l10n.translate('eurosSavedIncludingFree') ?? 'Euros Saved vs Cigarettes (Including Free Value)', '${saving.eurosSavedVsCigIncludingFreeValue ?? '0.00'} €'),
+            _row(l10n.translate('eurosSavedVsCigarettes') ?? 'Euros saved vs previous', '${saving.eurosSavedVsCig ?? '0.00'} €'),
+            _row(l10n.translate('eurosSavedIncludingFree') ?? 'Euros saved vs previous (including free value)', '${saving.eurosSavedVsCigIncludingFreeValue ?? '0.00'} €'),
             _row(l10n.translate('savingsPerDay') ?? 'Savings per day', '${saving.savingPerDay ?? '0.00'} €'),
             _row(l10n.translate('savingsPerMonth30days') ?? 'Savings per month (~30 days)', '${saving.savingPerMonth ?? '0.00'} €'),
             _row(l10n.translate('savingsPerYear365days') ?? 'Savings per year (~365 days)', '${saving.savingPerYear ?? '0.00'} €'),

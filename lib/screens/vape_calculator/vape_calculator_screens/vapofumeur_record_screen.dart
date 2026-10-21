@@ -88,7 +88,7 @@ class _VapofumeurRecordScreenState extends State<VapofumeurRecordScreen> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        title: Text(l10n.translate('vapofumeur') ?? 'Vapofumeur'),
+        title: Text(l10n.translate('vapofumeur') ?? 'Personalfumeur'),
       ),
       body: Consumer2<VapeSavingsViewModel, HomeViewModel>(
         builder: (context, vm, home, _) {
@@ -113,7 +113,7 @@ class _VapofumeurRecordScreenState extends State<VapofumeurRecordScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.translate('vapofumeur') ?? 'Vapofumeur',
+                        l10n.translate('vapofumeur') ?? 'Personalfumeur',
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: 22,
@@ -123,7 +123,7 @@ class _VapofumeurRecordScreenState extends State<VapofumeurRecordScreen> {
                       const SizedBox(height: 8),
                       Text(
                         l10n.translate('slipFormSubtitle') ??
-                            'Record date, time, number of cigarettes and total amount for each slip.',
+                            'Record date, time, quantity and total amount for each entry.',
                         style: GoogleFonts.poppins(color: Colors.white70),
                       ),
                     ],
@@ -153,7 +153,7 @@ class _VapofumeurRecordScreenState extends State<VapofumeurRecordScreen> {
                       children: [
                         Text(
                           l10n.translate('needVapeCalculationFirst') ??
-                              'You need a saved vape calculation first. Total amount uses the cigarette unit price from your latest calculation.',
+                              'You need a saved Personal calculation first. Total amount uses the unit price from your latest calculation.',
                           style: GoogleFonts.poppins(fontSize: 13),
                         ),
                         TextButton(
@@ -163,13 +163,13 @@ class _VapofumeurRecordScreenState extends State<VapofumeurRecordScreen> {
                               builder: (_) => const VapeCalculatorDashboardScreen(),
                             ),
                           ),
-                          child: Text(l10n.translate('vapeCalc') ?? 'Vape Calculator'),
+                          child: Text(l10n.translate('vapeCalc') ?? 'Personal Calculator'),
                         ),
                       ],
                     ),
                   ),
                 _field(
-                  label: l10n.translate('numberOfCigarettes') ?? 'Number of cigarettes',
+                  label: l10n.translate('numberOfCigarettes') ?? 'Quantity',
                   child: TextField(
                     controller: _countController,
                     keyboardType: TextInputType.number,
@@ -225,15 +225,15 @@ class _VapofumeurRecordScreenState extends State<VapofumeurRecordScreen> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  '${l10n.translate('unitPriceLatestCalc') ?? 'Unit price (latest calculation)'}: ${hasCalc ? '€${unitPrice.toStringAsFixed(4)}' : '—'} × ${l10n.translate('numberOfCigarettes') ?? 'Number of cigarettes'}.',
+                  '${l10n.translate('unitPriceLatestCalc') ?? 'Unit price (latest calculation)'}: ${hasCalc ? '€${unitPrice.toStringAsFixed(4)}' : '—'} × ${l10n.translate('numberOfCigarettes') ?? 'Quantity'}.',
                   style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textMuted),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: vm.loading || !hasCalc ? null : () => _submit(unitPrice),
-                    child: vm.loading
+                    onPressed: vm.saving || !hasCalc ? null : () => _submit(unitPrice),
+                    child: vm.saving
                         ? const SizedBox(
                             height: 20,
                             width: 20,
@@ -276,7 +276,7 @@ class UtilsToast {
       SnackBar(
         content: Text(
           l10n.translate('needVapeCalculationFirst') ??
-              'You need a saved vape calculation first. Total amount uses the cigarette unit price from your latest calculation.',
+              'You need a saved Personal calculation first. Total amount uses the unit price from your latest calculation.',
         ),
       ),
     );

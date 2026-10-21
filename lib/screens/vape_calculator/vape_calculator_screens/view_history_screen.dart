@@ -32,7 +32,7 @@ class _ViewHistoryScreenState extends State<ViewHistoryScreen> {
       appBar: AppBar(
         title: Text(
           l10n.translate('vapeSavingsCalculationHistory') ??
-              'Vape Savings Calculation History',
+              'Personal Savings Calculation History',
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -205,12 +205,12 @@ class _ViewHistoryScreenState extends State<ViewHistoryScreen> {
                             '${item.totalDays}',
                           ),
                           _line(
-                            l10n.translate('totalCigCost') ?? 'Total Cig Cost',
+                            l10n.translate('totalCigCost') ?? 'Total previous cost',
                             '€${item.totalCigCost}',
                           ),
                           _line(
                             l10n.translate('totalVapeCostAfterFidelity') ??
-                                'Total Vape Cost (After Fidelity)',
+                                'Total Personal Cost (After Fidelity)',
                             '€${item.totalVapeCostAfterFidelity}',
                           ),
                           _line(

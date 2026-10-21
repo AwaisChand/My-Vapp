@@ -43,7 +43,7 @@ class _VapeCalculatorDashboardScreenState
           backgroundColor: AppColors.scaffoldBg,
           appBar: widget.embedded
               ? null
-              : AppBar(title: Text(l10n.translate('vapeCalc') ?? 'Vape Calculator')),
+              : AppBar(title: Text(l10n.translate('vapeCalc') ?? 'Personal Calculator')),
           body: vm.loading && vm.history.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : SafeArea(
@@ -70,7 +70,7 @@ class _VapeCalculatorDashboardScreenState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                l10n.translate('vapeCalc') ?? 'Vape Calculator',
+                                l10n.translate('vapeCalc') ?? 'Personal Calculator',
                                 style: GoogleFonts.poppins(
                                   color: Colors.white70,
                                   fontSize: 12,
@@ -80,7 +80,7 @@ class _VapeCalculatorDashboardScreenState
                               const SizedBox(height: 4),
                               Text(
                                 l10n.translate('vapeSavingsOverview') ??
-                                    'Vape savings overview',
+                                    'Personal savings overview',
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 22,

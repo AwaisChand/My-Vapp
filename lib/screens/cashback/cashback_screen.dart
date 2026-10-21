@@ -411,17 +411,30 @@ class _SummaryStatsGrid extends StatelessWidget {
           ),
         ];
 
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: items.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossCount,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: crossCount == 4 ? 1.05 : 1.15,
-          ),
-          itemBuilder: (context, index) => _SummaryStatCard(data: items[index]),
+        return Column(
+          children: [
+            for (var i = 0; i < items.length; i += crossCount)
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: i + crossCount < items.length ? 10 : 0,
+                ),
+                child: IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var j = 0; j < crossCount; j++) ...[
+                        if (j > 0) const SizedBox(width: 10),
+                        Expanded(
+                          child: i + j < items.length
+                              ? _SummaryStatCard(data: items[i + j])
+                              : const SizedBox.shrink(),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+          ],
         );
       },
     );
@@ -454,9 +467,11 @@ class _SummaryStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: PortalUi.cardDecoration(radius: 14),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -472,14 +487,19 @@ class _SummaryStatCard extends StatelessWidget {
             style: GoogleFonts.poppins(fontSize: 10, color: AppColors.textMuted),
           ),
           const SizedBox(height: 4),
-          Text(
-            data.value,
-            style: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 18),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              data.value,
+              maxLines: 1,
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 18),
+            ),
           ),
           if (data.meta != null) ...[
             const SizedBox(height: 2),
             Text(
               data.meta!,
+              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(fontSize: 10, color: AppColors.textMuted),
             ),
           ],

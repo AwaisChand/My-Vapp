@@ -38,12 +38,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       useWebLinks
           ? VapeWebLinkTab(
               titleKey: 'vapeCalc',
-              titleFallback: 'Vape Calculator',
-              subtitleKey: 'openVapeSavingsWebHint',
-              subtitleFallback:
-                  'Continue on the MY Vapp website to manage your vape savings.',
-              buttonKey: 'openVapeSavings',
-              buttonFallback: 'Open Vape Calculator',
+              titleFallback: 'Personal Calculator',
               pageUrl: AppUrl.vapeSavingsPageUrl,
               icon: Icons.calculate_rounded,
             )
@@ -51,14 +46,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       useWebLinks
           ? VapeWebLinkTab(
               titleKey: 'vapofumeur',
-              titleFallback: 'Vapofumeur',
-              subtitleKey: 'openVapofumeurWebHint',
-              subtitleFallback:
-                  'Continue on the MY Vapp website to view your slip history.',
-              buttonKey: 'openVapofumeurHistory',
-              buttonFallback: 'Open Vapofumeur',
+              titleFallback: 'Personalfumeur',
               pageUrl: AppUrl.vapeSlipsHistoryPageUrl,
-              icon: Icons.smoking_rooms_rounded,
+              icon: Icons.favorite_rounded,
             )
           : const VapofumeurHistoryScreen(embedded: true),
     ];
@@ -77,7 +67,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     Icons.card_giftcard_rounded,
     Icons.home_rounded,
     Icons.calculate_rounded,
-    Icons.smoking_rooms_rounded,
+    Icons.favorite_rounded,
   ];
 
   static const _labelKeys = [
@@ -92,8 +82,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
     'Cashback',
     'Offers',
     'Dashboard',
-    'Vape Calculator',
-    'Vapofumeur',
+    'Personal Calculator',
+    'Personalfumeur',
   ];
 
   @override

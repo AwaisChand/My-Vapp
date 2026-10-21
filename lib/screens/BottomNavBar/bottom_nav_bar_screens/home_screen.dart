@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const DashboardSavingsRow(),
                               const SizedBox(height: 20),
                               DashboardPanel(
-                                title: l10n.translate('progressPassport') ?? 'Progress passport',
+                                title: l10n.translate('progressPassport') ?? 'Daily Tracking',
                                 icon: Icons.compass_calibration_outlined,
                                 trailing: DashboardChartFilters(
                                   years: home.passportYears,
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      l10n.translate('nicotineMg') ?? 'Nicotine (mg)',
+                                      l10n.translate('nicotineMg') ?? 'Daily Tracking',
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
                                         color: AppColors.textMuted,
@@ -110,11 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       categories: passportChart.categories,
                                       values: passportChart.values,
                                       emptyMessage: l10n.translate('noNicotineData') ??
-                                          'No nicotine data available for this month.',
+                                          'No Daily Tracking data available for this month.',
                                       emptyExtra: l10n.translate('noEntriesForPeriod') ??
                                           'No entries for this period',
                                       tooltipValueLabel:
-                                          l10n.translate('nicotineValue') ?? 'Nicotine value',
+                                          l10n.translate('nicotineValue') ?? 'Daily Tracking',
                                       tooltipDateLabel: l10n.translate('date') ?? 'Date',
                                       tooltipTimeLabel: l10n.translate('time') ?? 'Time',
                                       tooltipAverageLabel:
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Text(
-                      l10n.translate('dashboardSubtitle') ?? 'Your vape loyalty hub',
+                      l10n.translate('dashboardSubtitle') ?? 'Your Personal loyalty hub',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(color: Colors.white70, fontSize: 12),

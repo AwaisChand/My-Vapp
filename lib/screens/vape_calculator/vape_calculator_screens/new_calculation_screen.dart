@@ -88,7 +88,7 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
     final l10n = AppLocalizations.of(context)!;
     if (_firstDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.translate('firstTimeVapostore') ?? 'Please select your first vapostore visit date')),
+        SnackBar(content: Text(l10n.translate('pleaseSelectFirstVisit') ?? 'Please select your first visit date')),
       );
       return;
     }
@@ -117,8 +117,8 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
     final l10n = AppLocalizations.of(context)!;
     final steps = [
       l10n.translate('dates') ?? 'Dates',
-      l10n.translate('cigarettes') ?? 'Cigarettes',
-      l10n.translate('vape') ?? 'Vape',
+      l10n.translate('cigarettes') ?? 'Daily use',
+      l10n.translate('vape') ?? 'Personal',
     ];
     final french = Localizations.localeOf(context).languageCode == 'fr';
     final result = _result;
@@ -143,7 +143,7 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
             child: Text(
               l10n.translate('compareCostsSubtitle') ??
-                  'Compare costs - see how much you save with vape',
+                  'Compare costs - see how much you save with Personal',
               style: GoogleFonts.poppins(color: AppColors.textMuted, fontSize: 13),
             ),
           ),
@@ -240,7 +240,7 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
       title: l10n.translate('dates') ?? 'Dates',
       icon: Icons.calendar_month,
       children: [
-        _dateField(l10n.translate('firstTimeVapostore') ?? 'First time in vapostore cigarettes', _firstDate, () => _pickDate(true)),
+        _dateField(l10n.translate('firstTimeVapostore') ?? 'First visit date', _firstDate, () => _pickDate(true)),
         const SizedBox(height: 12),
         _dateField(l10n.translate('todayDate') ?? 'Today date', _todayDate, () => _pickDate(false)),
         const SizedBox(height: 16),
@@ -258,20 +258,20 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
 
   Widget _cigarettesStep(AppLocalizations l10n, VapeCalcResult result) {
     return _card(
-      title: l10n.translate('cigaretteSection') ?? 'CIGARETTE',
-      icon: Icons.smoke_free,
+      title: l10n.translate('cigaretteSection') ?? 'DAILY USE',
+      icon: Icons.inventory_2_rounded,
       children: [
-        _numField(l10n.translate('averagePackPrice') ?? 'Average price of a cigarette pack (€)', _packPrice),
-        _numField(l10n.translate('cigarettesPerPack') ?? 'Number of cigarettes / pack', _cigsPerPack, isInt: true),
-        _numField(l10n.translate('cigarettesPerDay') ?? 'Cigarettes smoked per day', _cigsPerDay, isInt: true),
-        _readonly(l10n.translate('totalEurosSpentOnCigarettes') ?? 'Total euros spent on cigarettes', result.euro(result.totalCigCost)),
+        _numField(l10n.translate('averagePackPrice') ?? 'Average pack price (€)', _packPrice),
+        _numField(l10n.translate('cigarettesPerPack') ?? 'Units per pack', _cigsPerPack, isInt: true),
+        _numField(l10n.translate('cigarettesPerDay') ?? 'Units per day', _cigsPerDay, isInt: true),
+        _readonly(l10n.translate('totalEurosSpentOnCigarettes') ?? 'Total previous spend', result.euro(result.totalCigCost)),
       ],
     );
   }
 
   Widget _vapeStep(AppLocalizations l10n, VapeCalcResult result) {
     return _card(
-      title: l10n.translate('vape') ?? 'Vape',
+      title: l10n.translate('vape') ?? 'Personal',
       icon: Icons.eco,
       children: [
         _numField(l10n.translate('unitPricePerBottle') ?? 'Unit price per bottle (€)', _vapeUnitPrice),
@@ -281,7 +281,7 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
         _numField(l10n.translate('fidelityPercent') ?? 'Fidelity %', _fidelityPercent),
         _readonly(l10n.translate('unitPriceFinal') ?? 'Unit price final (fidelity + free)', result.euro(result.pricePerBottleInclFree)),
         _readonly(l10n.translate('totalPriceWithDiscount') ?? 'Total price with discount', result.euro(result.totalVapeCostAfterFidelity)),
-        _readonly(l10n.translate('totalPriceVapeWithoutSave') ?? 'Total price vape without save', result.euro(result.totalRetailAllBottles)),
+        _readonly(l10n.translate('totalPriceVapeWithoutSave') ?? 'Total price Personal without save', result.euro(result.totalRetailAllBottles)),
         _readonly(l10n.translate('freeBottleValue') ?? 'Free bottle value (€)', result.euro(result.freeBottleValue)),
       ],
     );
@@ -302,19 +302,19 @@ class _NewCalculationScreenState extends State<NewCalculationScreen> {
           Text(l10n.translate('totalEconomies') ?? 'Total economies', style: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 18)),
           const SizedBox(height: 6),
           Text(
-            '${result.savingPercent.toStringAsFixed(0)}% ${l10n.translate('savedVsCigarette') ?? 'saved vs cigarette'}',
+            '${result.savingPercent.toStringAsFixed(0)}% ${l10n.translate('savedVsCigarette') ?? 'saved vs previous'}',
             style: GoogleFonts.poppins(color: AppColors.primary, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 6),
           Text(
             l10n.translate('savingSwitchMessage') ??
-                'This is the saving you make by switching from cigarettes to vape.',
+                'This is the saving you make by switching to Personal.',
             style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textMuted),
           ),
           const SizedBox(height: 12),
           Text(l10n.translate('costs') ?? 'Costs', style: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
-          _mini(l10n.translate('cigaretteCost') ?? 'Cigarette cost', result.euro(result.totalCigCost)),
-          _mini(l10n.translate('vapeCost') ?? 'Vape cost', result.euro(result.totalVapeCostAfterFidelity)),
+          _mini(l10n.translate('cigaretteCost') ?? 'Previous cost', result.euro(result.totalCigCost)),
+          _mini(l10n.translate('vapeCost') ?? 'Personal cost', result.euro(result.totalVapeCostAfterFidelity)),
           const SizedBox(height: 8),
           Text(l10n.translate('savingsDetails') ?? 'Savings details', style: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
           _mini(l10n.translate('savingsPerDay') ?? 'Savings per day', result.euro(result.savingPerDay)),
