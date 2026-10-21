@@ -6,6 +6,7 @@ import '../../models/dashboard_model/dashboard_model.dart';
 import '../../screens/vape_calculator/vape_calculator_screens/new_calculation_screen.dart';
 import '../../screens/vape_calculator/vape_calculator_screens/vapofumeur_record_screen.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/platform_features.dart';
 import '../../utils/tier_ui_utils.dart';
 import '../../view_models/bottom_nav_view_model/bottom_nav_view_model.dart';
 import '../../view_models/home_view_model/home_view_model.dart';
@@ -159,10 +160,16 @@ class _DashboardActions extends StatelessWidget {
           label: l10n.translate('newCalculation') ?? 'New calculation',
           icon: Icons.calculate_rounded,
           primary: true,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const NewCalculationScreen()),
-          ),
+          onTap: () {
+            if (PlatformFeatures.useVapeWebLinks) {
+              context.read<BottomNavViewModel>().selectTab(BottomNavIndex.economy);
+              return;
+            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NewCalculationScreen()),
+            );
+          },
         ),
         const SizedBox(height: 10),
         _actionButton(
@@ -171,6 +178,10 @@ class _DashboardActions extends StatelessWidget {
           icon: Icons.warning_amber_rounded,
           primary: false,
           onTap: () async {
+            if (PlatformFeatures.useVapeWebLinks) {
+              context.read<BottomNavViewModel>().selectTab(BottomNavIndex.vapofumeur);
+              return;
+            }
             final saved = await Navigator.push<bool>(
               context,
               MaterialPageRoute(builder: (_) => const VapofumeurRecordScreen()),

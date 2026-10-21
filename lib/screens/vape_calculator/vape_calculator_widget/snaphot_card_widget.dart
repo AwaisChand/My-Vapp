@@ -40,22 +40,56 @@ class SnapshotCardWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                _row(l10n.translate('lastSavedDate') ?? 'Last saved date', latest!.createdAt ?? '—'),
-                _row(l10n.translate('monthlyEquivalent') ?? 'Monthly equivalent', '€${latest!.savingPerMonth ?? '0.00'}'),
-                _row(l10n.translate('dailyEquivalent') ?? 'Daily equivalent', '€${latest!.savingPerDay ?? '0.00'}'),
+                _row(
+                  l10n.translate('lastSavedDate') ?? 'Last saved date',
+                  _formatDate(latest!.createdAt),
+                ),
+                _row(
+                  l10n.translate('monthlyEquivalent') ?? 'Monthly equivalent',
+                  '€${latest!.savingPerMonth ?? '0.00'}',
+                ),
+                _row(
+                  l10n.translate('dailyEquivalent') ?? 'Daily equivalent',
+                  '€${latest!.savingPerDay ?? '0.00'}',
+                ),
               ],
             ),
     );
+  }
+
+  String _formatDate(String? raw) {
+    if (raw == null || raw.isEmpty) return '—';
+    final parsed = DateTime.tryParse(raw);
+    if (parsed == null) return raw;
+    final local = parsed.toLocal();
+    final y = local.year.toString().padLeft(4, '0');
+    final m = local.month.toString().padLeft(2, '0');
+    final d = local.day.toString().padLeft(2, '0');
+    final h = local.hour.toString().padLeft(2, '0');
+    final min = local.minute.toString().padLeft(2, '0');
+    return '$y-$m-$d $h:$min';
   }
 
   Widget _row(String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: GoogleFonts.poppins(color: AppColors.textMuted)),
-          Text(value, style: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
+          Expanded(
+            child: Text(
+              label,
+              style: GoogleFonts.poppins(color: AppColors.textMuted),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Flexible(
+            child: Text(
+              value,
+              textAlign: TextAlign.right,
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+            ),
+          ),
         ],
       ),
     );

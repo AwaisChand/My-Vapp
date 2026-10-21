@@ -48,5 +48,9 @@
   "helpCenter": "Help Center",
   "aiChat": "Ai Chat",
   "changeLang": "Change to French",
-  "logout": "Logout"
+  "logout": "Logout",
+  "openVapeSavings": "Open Vape Calculator",
+  "openVapofumeurHistory": "Open Vapofumeur",
+  "openVapeSavingsWebHint": "Continue on the MY Vapp website to manage your vape savings.",
+  "openVapofumeurWebHint": "Continue on the MY Vapp website to view your slip history."
 }

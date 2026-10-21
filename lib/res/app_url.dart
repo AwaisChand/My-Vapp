@@ -34,6 +34,9 @@ class AppUrl {
   static String get supportPageUrl => '${baseUrl}support';
   static String get deleteAccountPageUrl => '${baseUrl}delete-account';
   static String get privacyPolicyUrl => '${baseUrl}privacy-policy';
+  static String get vapeSavingsPageUrl => '${baseUrl}customer/vape-savings';
+  static String get vapeSlipsHistoryPageUrl =>
+      '${baseUrl}customer/vape-savings/slips/history';
 
   // Cashback & loyalty
   static var redeemPointsHistoryEndPoint = '${baseUrl}api/redeemed-points';

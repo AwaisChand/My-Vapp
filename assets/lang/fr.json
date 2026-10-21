@@ -45,5 +45,9 @@
   "helpCenter": "Centre d'aide",
   "aiChat": "Chat IA",
   "changeLang": "Changer en anglais",
-  "logout": "Se déconnecter"
+  "logout": "Se déconnecter",
+  "openVapeSavings": "Ouvrir le calculateur Vape",
+  "openVapofumeurHistory": "Ouvrir Vapofumeur",
+  "openVapeSavingsWebHint": "Continuez sur le site MY Vapp pour gérer vos économies vape.",
+  "openVapofumeurWebHint": "Continuez sur le site MY Vapp pour consulter l'historique de vos écarts."
 }

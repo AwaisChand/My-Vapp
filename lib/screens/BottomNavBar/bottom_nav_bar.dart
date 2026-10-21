@@ -3,12 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../res/app_localization.dart';
+import '../../res/app_url.dart';
 import '../../res/components/customer_shell.dart';
 import '../../res/components/customer_sidebar.dart';
 import '../../view_models/bottom_nav_view_model/bottom_nav_view_model.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/platform_features.dart';
 import '../cashback/cashback_screen.dart';
 import '../vape_calculator/vape_calculator_screens/vape_calculator_dashboard_screen.dart';
+import '../vape_calculator/vape_calculator_screens/vape_web_link_tab.dart';
 import '../vape_calculator/vape_calculator_screens/vapofumeur_history_screen.dart';
 import 'bottom_nav_bar_screens/home_screen.dart';
 import 'bottom_nav_bar_screens/offers_screen.dart';
@@ -22,14 +25,44 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final List<Widget> _screens;
 
-  final List<Widget> _screens = const [
-    CashbackScreen(),
-    OffersScreen(initialTabIndex: 0, embedded: true),
-    HomeScreen(),
-    VapeCalculatorDashboardScreen(embedded: true),
-    VapofumeurHistoryScreen(embedded: true),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    final useWebLinks = PlatformFeatures.useVapeWebLinks;
+    _screens = [
+      const CashbackScreen(),
+      const OffersScreen(initialTabIndex: 0, embedded: true),
+      const HomeScreen(),
+      useWebLinks
+          ? VapeWebLinkTab(
+              titleKey: 'vapeCalc',
+              titleFallback: 'Vape Calculator',
+              subtitleKey: 'openVapeSavingsWebHint',
+              subtitleFallback:
+                  'Continue on the MY Vapp website to manage your vape savings.',
+              buttonKey: 'openVapeSavings',
+              buttonFallback: 'Open Vape Calculator',
+              pageUrl: AppUrl.vapeSavingsPageUrl,
+              icon: Icons.calculate_rounded,
+            )
+          : const VapeCalculatorDashboardScreen(embedded: true),
+      useWebLinks
+          ? VapeWebLinkTab(
+              titleKey: 'vapofumeur',
+              titleFallback: 'Vapofumeur',
+              subtitleKey: 'openVapofumeurWebHint',
+              subtitleFallback:
+                  'Continue on the MY Vapp website to view your slip history.',
+              buttonKey: 'openVapofumeurHistory',
+              buttonFallback: 'Open Vapofumeur',
+              pageUrl: AppUrl.vapeSlipsHistoryPageUrl,
+              icon: Icons.smoking_rooms_rounded,
+            )
+          : const VapofumeurHistoryScreen(embedded: true),
+    ];
+  }
 
   static const _iconColors = [
     AppColors.navCashback,
